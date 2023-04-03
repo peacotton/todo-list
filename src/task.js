@@ -49,11 +49,17 @@ const createTask = (title) => {
         return project;
     }
 
+    const getInfo = () => {
+        // return {title, dueDate, description, priority, project}
+        return [title, dueDate, description, priority, project]
+    }
+
     return {getTitle, setTitle, 
             getDate, setDate, 
             getDescription, setDescription,
             getPriority, setPriority,
-            getProject, setProject
+            getProject, setProject,
+            getInfo
         };
 }
 

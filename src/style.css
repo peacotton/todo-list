@@ -1,0 +1,101 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+#content {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 15vh 85vh;
+    grid-template-areas: "header header" "sidebar content";
+}
+
+#header {
+    border: 5px solid black;
+    grid-area: header;
+}
+
+#sidebar {
+    border: 5px solid blue;
+    grid-area: sidebar;
+    display: grid;
+    padding: 5px;
+    gap: 5px;
+    grid-template-rows: 10%;
+    grid-auto-rows: 10%;
+}
+
+.sidebarContent {
+    border: 1px solid green;
+    font-size: 2em;
+    display: grid;
+    place-items: center;
+    grid-template-columns: 4fr 1fr;
+
+}
+
+#mainContent {
+    border: 5px solid red;
+    grid-area: content;
+    display: grid;
+    grid-template-rows: 10%;
+    grid-auto-rows: 10%;
+    padding: 5px;
+    gap: 5px;
+}
+
+#projectTitle {
+    border: 1px solid green;
+    display: grid;
+    align-items: start;
+    justify-content: start;
+    font-size: 3em;
+}
+
+.task {
+    border: 1px solid green;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    align-items: center;
+    padding: 5px;
+}
+
+.hidden {
+    display: none;
+}
+.deleteTask {
+    display: grid;
+    place-items: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.deleteTask:hover {
+    background-color:darkred;
+    cursor: pointer;
+}
+
+.lowPriority {
+    background-color: rgb(1, 109, 1);
+}
+
+#newTask:hover {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#taskForm {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+#confirmButton {
+    background-color: green;
+}
+#cancelButton {
+    background-color: red;
+}
+#taskInput{
+    grid-column: 1/3;
+}
