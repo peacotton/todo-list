@@ -57,9 +57,14 @@
 .task {
     border: 1px solid green;
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 2fr 2fr 2fr 1fr;
     align-items: center;
     padding: 5px;
+}
+
+.description:hover {
+    opacity: 0.7;
+    cursor: pointer;
 }
 
 .hidden {
