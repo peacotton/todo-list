@@ -1,134 +1,72 @@
-// const createTask = (title) => {
-//     let dueDate = 'No due date';
-//     let description = 'Click to add a description';
-//     let priority = 'low';
-//     let project = 'default';
+const createTask = (title) => {
+    let dueDate = 'No due date';
+    let description = 'Click to add a description';
+    let priority = 'low';
+    let info = {title, dueDate, description, priority};
 
-//     const getDate = () => {
-//         return dueDate;
-//     }
+    return info;
+}
 
-//     const setDate = (newDate) => {
-//         dueDate = newDate;
-//         return dueDate;
-//     }
+function updateTask(task) {
+    let title = task.title;
+    let dueDate = task.dueDate;
+    let description = task.description;
+    let priority = task.priority;
+    let info = {title, dueDate, description, priority};
 
-//     const getTitle = () => {
-//         return title;
-//     }
+    console.log(info);
     
-//     const setTitle = (newTitle) => {
-//         title = newTitle;
-//         return title;
-//     }
+    const getDate = () => {
+        return dueDate;
+    }
 
-//     const getDescription = () => {
-//         return description;
-//     }
+    const setDate = (newDate) => {
+        dueDate = newDate;
+        return dueDate;
+    }
 
-//     const setDescription = (newDescription) => {
-//         description = newDescription;
-//         return description;
-//     }
-
-//     const getPriority = () => {
-//         return priority;
-//     }
-
-//     const setPriority = (newPriority) => {
-//         priority = newPriority;
-//         return priority;
-//     }
-
-//     const getProject = () => {
-//         return project;
-//     }
-
-//     const setProject = (newProject) => {
-//         project = newProject;
-//         return project;
-//     }
-
-//     const getInfo = () => {
-//         return [title,dueDate,description,priority,project];
-//     }
-
-//     return {getTitle, setTitle, 
-//             getDate, setDate, 
-//             getDescription, setDescription,
-//             getPriority, setPriority,
-//             getProject, setProject,
-//             getInfo
-//         };
-// }
-
-
-// function updateTask(array) {
-//     let title = array[0];
-//     let dueDate = array[1];
-//     let description = array[2];
-//     let priority = array[3];
-//     let project = array[4];
-
-//     const getDate = () => {
-//         return dueDate;
-//     }
-
-//     const setDate = (newDate) => {
-//         dueDate = newDate;
-//         return dueDate;
-//     }
-
-//     const getTitle = () => {
-//         return title;
-//     }
+    const getTitle = () => {
+        return title;
+    }
     
-//     const setTitle = (newTitle) => {
-//         title = newTitle;
-//         return title;
-//     }
+    const setTitle = (newTitle) => {
+        title = newTitle;
+        return title;
+    }
 
-//     const getDescription = () => {
-//         return description;
-//     }
+    const getDescription = () => {
+        return description;
+    }
 
-//     const setDescription = (newDescription) => {
-//         description = newDescription;
-//         return description;
-//     }
+    const setDescription = (newDescription) => {
+        description = newDescription;
+        return description;
+    }
 
-//     const getPriority = () => {
-//         return priority;
-//     }
+    const getPriority = () => {
+        return priority;
+    }
 
-//     const setPriority = (newPriority) => {
-//         priority = newPriority;
-//         return priority;
-//     }
+    const setPriority = (newPriority) => {
+        priority = newPriority;
+        return priority;
+    }
 
-//     const getProject = () => {
-//         return project;
-//     }
+    const getInfo = () => {
+        return {title,dueDate,description,priority}
+    }
 
-//     const setProject = (newProject) => {
-//         project = newProject;
-//         return project;
-//     }
+    // const getInfoArray = () => {
+    //     return [title,dueDate,description,priority]
+    // }
 
-//     const getInfo = () => {
-//         return {title,dueDate,description,priority,project}
-//     }
+    return {getTitle, setTitle, 
+        getDate, setDate, 
+        getDescription, setDescription,
+        getPriority, setPriority,
+        getInfo
+    };
+}
 
-//     const getInfoArray = () => {
-//         return [title,dueDate,description,priority,project]
-//     }
 
-//     return {getTitle, setTitle, 
-//         getDate, setDate, 
-//         getDescription, setDescription,
-//         getPriority, setPriority,
-//         getProject, setProject,
-//         getInfo, getInfoArray
-//     };
-// }
-// export {createTask, updateTask};
+export {createTask, updateTask};

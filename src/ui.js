@@ -1,30 +1,9 @@
 // import {createTask, updateTask} from "./task";
 // import {createList, updateList} from "./list";
 
-// function loadHomePage() {
-//     const content = document.getElementById('content');
+function loadHomePage() {
+    const content = document.getElementById('content');
     
-//     const header = document.createElement('div');
-//     header.setAttribute('id', 'header');
-//     content.appendChild(header);
-
-//     const sidebar = document.createElement('div');
-//     sidebar.setAttribute('id', 'sidebar');
-//     content.appendChild(sidebar);
-//     const projectsBox = document.createElement('div');
-//     projectsBox.classList.add('sidebarContent');
-//     projectsBox.innerHTML = 'Projects';
-//     sidebar.appendChild(projectsBox);
-
-//     const mainContent = document.createElement('div');
-//     mainContent.setAttribute('id','mainContent');
-//     content.appendChild(mainContent);
-
-//     const projectTitle = document.createElement('div');
-//     projectTitle.setAttribute('id', 'projectTitle');
-//     projectTitle.innerHTML = 'Default';
-//     mainContent.appendChild(projectTitle);
-
 //     const projects = localStorage.getItem('projects');
 //     if (projects === null) {
 //         localStorage.setItem('projects', 'Default');
@@ -51,14 +30,13 @@
 //         addTask(iObject.title, iObject.dueDate, iObject.description, iObject.priority);
 //     }
     
-//     addTaskButton();
+    addTaskButton();
 //     for (let i = 0; i < projectsArray.length; i++) {
 //         addProject(projectsArray[i]);
 //     }
 //     addProjectButton();
-    
-    
-// }
+       
+}
 
 // function addProjectButton() {
 //     const newProject = document.createElement('div');
@@ -167,45 +145,46 @@
 //     addTaskButton();
 // }
 
-// function addTaskButton() {
-//     const newTask = document.createElement('div');
-//     newTask.setAttribute('id','newTask');
-//     newTask.innerHTML = 'Add new task';
-//     newTask.addEventListener('click', showForm, {once: true});
-//     document.getElementById('mainContent').appendChild(newTask);
-// }
+function addTaskButton() {
+    const newTask = document.createElement('div');
+    newTask.setAttribute('id','newTask');
+    newTask.innerHTML = 'Add new task';
+    newTask.addEventListener('click', showForm, {once: true});
+    document.getElementById('mainContent').appendChild(newTask);
+}
 
 
-// function showForm() {
-//     const newTask = document.getElementById('newTask');
-//     newTask.id = 'taskForm';
-//     newTask.innerHTML = ``;
-//     const taskInput = document.createElement('input');
-//     taskInput.setAttribute('type','text');
-//     taskInput.setAttribute('id', 'taskInput');
-//     const confirm = document.createElement('button');
-//     confirm.setAttribute('id', 'confirmButton');
-//     confirm.innerHTML = 'Confirm';
-//     confirm.addEventListener('click', () => {
+function showForm() {
+    const newTask = document.getElementById('newTask');
+    newTask.id = 'taskForm';
+    newTask.innerHTML = ``;
+    const taskInput = document.createElement('input');
+    taskInput.setAttribute('type','text');
+    taskInput.setAttribute('id', 'taskInput');
+    const confirm = document.createElement('button');
+    confirm.setAttribute('id', 'confirmButton');
+    confirm.innerHTML = 'Confirm';
+    confirm.addEventListener('click', () => {
+        console.log('confirm');
 //         const makeTask = createTask(taskInput.value);
 //         addTask(makeTask.getTitle(), makeTask.getDate(), makeTask.getDescription(), makeTask.getPriority());
 //         console.log(makeTask.getInfo());
 //         updateProject(makeTask.getInfo());
 //         addTaskButton();
 //         document.getElementById('taskForm').remove();
-//     });
-//     const cancel = document.createElement('button');
-//     cancel.setAttribute('id','cancelButton');
-//     cancel.innerHTML = 'Cancel';
-//     cancel.addEventListener('click', () => {
-//         document.getElementById('taskForm').remove();
-//         addTaskButton();
-//     })
+    });
+    const cancel = document.createElement('button');
+    cancel.setAttribute('id','cancelButton');
+    cancel.innerHTML = 'Cancel';
+    cancel.addEventListener('click', () => {
+        document.getElementById('taskForm').remove();
+        addTaskButton();
+    })
     
-//     newTask.appendChild(taskInput);
-//     newTask.appendChild(confirm);
-//     newTask.appendChild(cancel);
-// }
+    newTask.appendChild(taskInput);
+    newTask.appendChild(confirm);
+    newTask.appendChild(cancel);
+}
 
 // function addTask(title, date, description, priority) {
 //     if (title === '' || title === null) {
@@ -299,4 +278,4 @@
 //     localStorage.setItem(currentProject, projectList);
 // }
 
-// export default loadHomePage;
+export default loadHomePage;
