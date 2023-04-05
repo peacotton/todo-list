@@ -7,14 +7,15 @@ function createList(projectName){
         return;
     }
     localStorage.setItem(project, `${project}}`);
+    return project;
 }
 
 function updateList(projectName){
     let project = projectName;
-    let list = localStorage.getItem(project);
     localStorage.setItem('currentProject', project);
+    let list = localStorage.getItem(project);
     let listArray = list.split('},');
-    for (let i =0; i < listArray.length-1; i++) {
+    for (let i = 0; i < listArray.length-1; i++) {
         listArray[i] = `${listArray[i]}}`
     }
 
@@ -29,8 +30,11 @@ function updateList(projectName){
         if (listArray[0] === `${project}}`) {
             listArray.shift();
         }
-        listArray = listArray.toString();
-        localStorage.setItem(project, listArray);
+
+        let listString = listArray.toString();
+        localStorage.setItem(project, listString);
+
+        return thisTask;
     }
     
     function removeTask(taskTitle) {
@@ -60,7 +64,16 @@ function updateList(projectName){
         }
     }
 
-    const displayTasks = () => list;
+    function getTaskObject(task){
+        for (let i =0; i < listArray.length; i++) {
+            const taskObject = JSON.parse(listArray[i]);
+            if (taskObject.title === task) {
+                return taskObject;
+            }
+        }
+    }
+
+    const displayTasks = () => listArray;
     const displayTaskCount = () => {
         for (let i = 0; i < listArray.length; i++){
             console.log(i+1);
@@ -68,7 +81,7 @@ function updateList(projectName){
         }
     }
 
-    return {insertTask, removeTask, displayTasks, displayTaskCount, changeTask}
+    return {insertTask, removeTask, displayTasks, displayTaskCount, changeTask, getTaskObject}
 }
 
 export {createList, updateList};
