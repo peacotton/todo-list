@@ -51,15 +51,22 @@ function updateList(projectName){
         }
     }
 
-    function changeTask(taskTitle){
+    function insertTaskObject(taskObject){
+        if (listArray[0] === `${project}}`) {
+            listArray.shift();
+        }
+        listArray.push(JSON.stringify(taskObject));
+        const currentProject = localStorage.getItem('currentProject');
+        localStorage.setItem(currentProject, listArray);
+
+    }
+
+    function changeTask(task){
         for (let i = 0; i < listArray.length; i++) {
-            const task = JSON.parse(listArray[i]);
-            if (task.title === taskTitle) {
-               const thisTask = updateTask(task);
-               /* TEMPORARY */
-               thisTask.setTitle('cooking');
-               listArray[i] = JSON.stringify(thisTask.getInfo());
-               localStorage.setItem(project, listArray.toString());
+            const taskObject = JSON.parse(listArray[i]);
+            if (taskObject.title === task) {
+               const thisTask = updateTask(taskObject);
+               return thisTask;
             }
         }
     }
@@ -81,7 +88,7 @@ function updateList(projectName){
         }
     }
 
-    return {insertTask, removeTask, displayTasks, displayTaskCount, changeTask, getTaskObject}
+    return {insertTask, removeTask, displayTasks, displayTaskCount, changeTask, getTaskObject, insertTaskObject}
 }
 
 export {createList, updateList};

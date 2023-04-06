@@ -14,8 +14,6 @@ function updateTask(task) {
     let priority = task.priority;
     let info = {title, dueDate, description, priority};
 
-    console.log(info);
-    
     const getDate = () => {
         return dueDate;
     }
@@ -53,12 +51,8 @@ function updateTask(task) {
     }
 
     const getInfo = () => {
-        return {title,dueDate,description,priority}
+        return {title,dueDate,description,priority};
     }
-
-    // const getInfoArray = () => {
-    //     return [title,dueDate,description,priority]
-    // }
 
     return {getTitle, setTitle, 
         getDate, setDate, 

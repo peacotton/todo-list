@@ -1,19 +1,33 @@
-import {createTask, updateTask} from "./task";
 import {createList, updateList} from "./list";
+import {format, parseISO} from 'date-fns';
 
 function loadHomePage() {
-    const content = document.getElementById('content');
+    // const content = document.getElementById('content');
     const projects = localStorage.getItem('projects');
     if (projects === null) {
         localStorage.setItem('projects', 'default');
         localStorage.setItem('currentProject', 'default');
+        localStorage.setItem('default', 'default}')
         addProject('default');
         addProjectButton();
         addTaskButton();
-    }
+        return;
+    } 
 
     localStorage.setItem('currentProject', 'default');
     const defaultTasks = localStorage.getItem('default');
+    if (defaultTasks === 'default}'){
+        addProject('default');
+        addProjectButton();
+        addTaskButton();
+        return;
+    }
+    if (defaultTasks.length === 1) {
+        addProject('default');
+        addProjectButton();
+        addTaskButton;
+        return;
+    }
     let taskArray = defaultTasks.split('},');
     for (let i =0; i < taskArray.length-1; i++) {
         taskArray[i] = `${taskArray[i]}}`
@@ -22,14 +36,9 @@ function loadHomePage() {
         const iObject = JSON.parse(taskArray[i]);
         addTask(iObject.title);
     }
-    
     addTaskButton();
+
     let projectsArray = projects.split(',');
-    // console.log(projectsArray);
-//     if (projectsArray.includes('')) {
-//         const index = projectsArray.indexOf('');
-//         projectsArray.splice(index, 1);
-//     } 
     for (let i = 0; i < projectsArray.length; i++) {
         addProject(projectsArray[i]);
     }
@@ -87,18 +96,15 @@ function addProject(projectName){
     }
     
     localStorage.setItem('projects', projectsArray);
-    // if (!localStorage.getItem(projectName)) {
-    //     const projectObject = createList(projectName);
-    //     localStorage.setItem(projectObject.project, projectObject.list);
-    // } 
     confirmedProject.addEventListener('click', changeProject);
     document.getElementById('sidebar').appendChild(confirmedProject);
     
     const xButton = document.createElement('div');
     xButton.textContent = 'x';
     confirmedProject.appendChild(xButton);
-    if (projectName === 'Default') {
+    if (projectName === 'default') {
         xButton.classList.add('hidden');
+        confirmedProject.style.fontSize = '3em';
         return;
     }
     xButton.classList.add('deleteTask');
@@ -111,17 +117,20 @@ function addProject(projectName){
             updateProjects.splice(index, 1);
             localStorage.setItem('projects', updateProjects);
             localStorage.removeItem(projectName);
+            document.getElementById('sidebar').innerHTML = '<div class="sidebarContent projectsTitle">Projects</div>';
+            document.getElementById('mainContent').innerHTML = '<div id="projectTitle">default</div>';
+            loadHomePage();
         } else return;  
-    })
-    
-    
-    
+    })  
 }
 
 function changeProject(e){
     const projects = localStorage.getItem('projects');
     let projectsArray = projects.split(',');
     let thisProject = e.target.textContent.slice(0, -1);
+    if (!thisProject) {
+        thisProject = 'default';
+    }
     if (localStorage.getItem('currentProject') === thisProject) {
         return;
     }
@@ -201,48 +210,102 @@ function addTask(title) {
     confirmedTask.innerHTML = `Task: ${title}`;
     const dueDate = document.createElement('div');
     dueDate.classList.add('date');
-    dueDate.innerHTML = `Due: ${thisTask.dueDate}`;
+    const dateObject = parseISO(thisTask.dueDate);
+    const prettyDate = dateObject.toString().slice(0, 11);
+    dueDate.innerHTML = `Due: ${prettyDate}`;
+    if (dueDate.innerHTML === 'Due: Invalid Dat') {
+        dueDate.innerHTML = `Due: ${thisTask.dueDate}`;
+    }
+    dueDate.addEventListener('click', (e) => {
+        const input = document.createElement('input');
+        input.setAttribute('type','date');
+        input.setAttribute('autofocus', 'true');
+        input.addEventListener('change', (e) => {
+            const dateObject = parseISO(input.value);
+            const dateInput = format(dateObject, 'MM-dd-yyyy');
+            const prettyDate = dateObject.toString().slice(0, 11);
+            dueDate.innerHTML = `Due: ${prettyDate}`;
+            const currentProject = updateList(localStorage.getItem('currentProject'));
+            const taskArray = currentProject.displayTasks();
+            for (let i=0; i < taskArray.length; i++) {
+                const iObject = JSON.parse(taskArray[i]);
+                if (iObject.title === title) {
+                        const updatedTask = currentProject.getTaskObject(title);
+                        updatedTask.dueDate = input.value;
+                        taskArray[i] = JSON.stringify(updatedTask);
+                        localStorage.setItem(localStorage.getItem('currentProject'), taskArray);
+                    }
+                }
+            })
+        e.target.textContent = '';
+        e.target.appendChild(input);
+    });
     const desc = document.createElement('div');
     desc.classList.add('description');
     desc.innerHTML = `${thisTask.description}`;
-
-
-//     desc.addEventListener('click', (e) => {
-//         const input = document.createElement('input');
-//         input.setAttribute('type','text');
-//         input.setAttribute('autofocus', 'true');
-//         input.addEventListener('keypress', (e) => {
-//             if (e.key === 'Enter') {
-//                 desc.innerHTML = input.value;
-//                 const currentProject = localStorage.getItem('currentProject');
-//                 const refreshTask = localStorage.getItem(currentProject);
-//                 console.log(refreshTask);
-//                 const taskArray = refreshTask.split('},');
-//                 if (taskArray.includes('')) {
-//                     const index = taskArray.indexOf('');
-//                     taskArray.splice(index, 1);
-//                 } 
-//                 console.log(taskArray);
-//                 for (let i =0; i < taskArray.length-1; i++) {
-//                     taskArray[i] = `${taskArray[i]}}`
-//                     console.log(taskArray[i]);
-//                 }
-//                 for (let i=0; i < taskArray.length; i++) {
-//                     const iObject = JSON.parse(taskArray[i]);
-//                     if (iObject.title === title) {
-//                         iObject.description = input.value;
-//                         console.log(iObject);
-//                         const updatedTask = updateList(currentProject);
-//                         updatedTask.removeTask(title);
-//                         updateProject(iObject);
-//                     }
-//                 }
-//             }
-//         })
-//         e.target.textContent = '';
-//         e.target.appendChild(input);
-//     });
-
+    desc.addEventListener('click', (e) => {
+        const input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('autofocus', 'true');
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                desc.innerHTML = input.value;
+                const currentProject = localStorage.getItem('currentProject');
+                const refreshTask = localStorage.getItem(currentProject);
+                const taskArray = refreshTask.split('},');
+                for (let i =0; i < taskArray.length-1; i++) {
+                    taskArray[i] = `${taskArray[i]}}`
+                }
+                for (let i=0; i < taskArray.length; i++) {
+                    const iObject = JSON.parse(taskArray[i]);
+                    if (iObject.title === title) {
+                        const updatedTaskProject = updateList(currentProject);
+                        const changedTask = updatedTaskProject.changeTask(title);
+                        changedTask.setDescription(input.value);
+                        taskArray[i] = JSON.stringify(changedTask.getInfo());
+                        localStorage.setItem(currentProject, taskArray);
+                    }
+                }
+            }
+        })
+        e.target.textContent = '';
+        e.target.appendChild(input);
+    });
+    const priority = document.createElement('div');
+    priority.classList.add('priority');
+    const highPrio = document.createElement('button');
+    highPrio.classList.add('highPrio');
+    highPrio.addEventListener('click', (e) => {
+        const projectObject = updateList(localStorage.getItem('currentProject'));
+        const changedTask = projectObject.changeTask(e.target.parentElement.parentElement.firstChild.textContent.slice(6));
+        changedTask.setPriority(e.target.classList[0].slice(0, 4));
+        projectObject.removeTask(changedTask.getTitle());
+        projectObject.insertTaskObject(changedTask.getInfo());
+        taskContainer.style.backgroundColor = 'red';
+    })
+    const mediumPrio = document.createElement('button');
+    mediumPrio.classList.add('mediumPrio');
+    mediumPrio.addEventListener('click', (e) => {
+        const projectObject = updateList(localStorage.getItem('currentProject'));
+        const changedTask = projectObject.changeTask(e.target.parentElement.parentElement.firstChild.textContent.slice(6));
+        changedTask.setPriority(e.target.classList[0].slice(0, 6));
+        projectObject.removeTask(changedTask.getTitle());
+        projectObject.insertTaskObject(changedTask.getInfo());
+        taskContainer.style.backgroundColor = 'yellow';
+    })
+    const lowPrio = document.createElement('button');
+    lowPrio.classList.add('lowPrio');
+    lowPrio.addEventListener('click', (e) => {
+        const projectObject = updateList(localStorage.getItem('currentProject'));
+        const changedTask = projectObject.changeTask(e.target.parentElement.parentElement.firstChild.textContent.slice(6));
+        changedTask.setPriority(e.target.classList[0].slice(0, 3));
+        projectObject.removeTask(changedTask.getTitle());
+        projectObject.insertTaskObject(changedTask.getInfo());
+        taskContainer.style.backgroundColor = 'lime';
+    })
+    priority.appendChild(highPrio);
+    priority.appendChild(mediumPrio);
+    priority.appendChild(lowPrio);
 
     if (thisTask.priority === 'low') {
         taskContainer.style.backgroundColor = 'lime';
@@ -259,13 +322,15 @@ function addTask(title) {
     xButton.addEventListener('click', (e) => {
         let deleteTask = prompt(`remove task ${title}?`);
         if (deleteTask === 'yes' || deleteTask === 'Yes') {
+            const currentProject = updateList(localStorage.getItem('currentProject'));
             currentProject.removeTask(title);
             e.target.parentElement.remove();
         } else return;  
     })
     taskContainer.appendChild(confirmedTask);
-    taskContainer.appendChild(dueDate);
     taskContainer.appendChild(desc);
+    taskContainer.appendChild(dueDate);
+    taskContainer.appendChild(priority);
     taskContainer.appendChild(xButton);
     document.getElementById('mainContent').appendChild(taskContainer);
 }
